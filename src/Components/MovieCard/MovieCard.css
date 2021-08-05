@@ -1,0 +1,143 @@
+.movie-list-info {
+  max-width: 250px;
+  margin: 1rem;
+  cursor: pointer;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 4px 8px 0 rgba(0 0 0 /20%);
+  position: relative;
+}
+
+.movie-list-info img {
+  width: 100%;
+}
+
+.movie-info {
+  padding: 10px;
+}
+
+.movie-list-info h5,
+span {
+  font-size: 0.9rem;
+}
+
+.movie-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal,
+.trailer {
+  display: none;
+}
+
+.modal.active,
+.trailer.active {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: auto;
+}
+
+.modal-content,
+.trailer-content {
+  background-color: #fefefe;
+  margin: 0 auto;
+  border: 1px solid #888;
+  max-width: 750px;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+  border-radius: 4px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  left: 93%;
+  top: 2%;
+  cursor: pointer;
+  font-size: 2rem;
+  color: #fff;
+  z-index: 20;
+}
+
+/* Modal Details */
+.title {
+  padding: 10px;
+}
+.modal-movie-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.modal-movie-overview {
+  padding: 10px;
+}
+
+.modal-movie-recommend {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.modal-cast,
+.modal-recommend {
+  max-width: 140px;
+}
+
+.modal-recommend {
+  cursor: pointer;
+}
+
+.modal-cast img {
+  width: 100%;
+}
+
+.modal-cast-name strong {
+  font-size: 0.7rem;
+}
+
+.movie-backdrop-path {
+  z-index: -1;
+  mask-image: linear-gradient(to top, transparent 0, black 55%);
+}
+
+.modal-movie-cast {
+  display: flex;
+  flex-direction: row;
+}
+
+.swiper-slide {
+  max-width: 150px;
+  font-size: 18px;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  margin-right: 0;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
