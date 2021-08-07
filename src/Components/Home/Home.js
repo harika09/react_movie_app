@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { BeatLoader } from "react-spinners";
 import MovieCard from "../MovieCard/MovieCard";
+import Swal from "sweetalert2";
 import "./Home.css";
 
 function Home() {
@@ -10,23 +11,70 @@ function Home() {
   const [maxPage, setMaxPage] = useState("");
   const [movies, setMovie] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+
+  const onSubmit = (e) => {
+    setMovie("");
+    e.preventDefault();
+    searchMovies();
+  };
+
+  const errorMessage = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: `No Movie Found for ${search}`,
+    });
+  };
+
+  const errorEmptyMessage = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: `Empty Field`,
+    });
+  };
+
+  const searchMovies = async () => {
+    if (!search.trim()) {
+      errorEmptyMessage();
+      setSearch("");
+      return loadMovies();
+    }
+    const query = await Axios.get(
+      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${search}&page=${page}&include_adult=false`
+    );
+    // setMovie((prev) => [...prev, ...searchMovie.data.results]);
+
+    setMovie((prev) => [...prev, ...query.data.results]);
+    setMaxPage(query.data.total_pages);
+    if (query.data.total_results === 0) {
+      setSearch("");
+      errorMessage();
+      return loadMovies();
+    }
+    setLoading(false);
+  };
 
   const loadMovies = async () => {
     const movies = await Axios.get(
       `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
     );
+    setMovie((prev) => [...prev, ...movies.data.results]);
+    setMaxPage(movies.data.total_pages);
     setTimeout(() => {
-      setMovie((prev) => [...prev, ...movies.data.results]);
-      setMaxPage(movies.data.total_results);
       setLoading(false);
     }, 1500);
   };
 
   useEffect(() => {
-    loadMovies();
-
     window.onscroll = infiniteScroll;
-
+    if (!search.trim()) {
+      loadMovies();
+      setLoading(false);
+    } else {
+      searchMovies();
+    }
     // This variable is used to remember if the function was executed.
     let isExecuted = false;
 
@@ -44,7 +92,7 @@ function Home() {
           setLoading(true);
           setTimeout(() => {
             setPage(page + 1);
-          }, 1500);
+          }, 1200);
         }
 
         // After 1 second the "isExecuted" will be set to "false" to allow the code inside the "if" statement to be executed again
@@ -52,13 +100,28 @@ function Home() {
     }
     // loadImages();
   }, [page]);
+
   return (
     <div className="home-container">
       <div className="home-content bd-container">
+        <div className="search">
+          <form onSubmit={onSubmit}>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              placeholder="Enter Movie, Tv Show or People"
+            />
+          </form>
+        </div>
         <div className="movie-card-list">
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} data={movie} />
-          ))}
+          {movies.length > 0 ? (
+            movies.map((movie) => <MovieCard key={movie.id} data={movie} />)
+          ) : (
+            <BeatLoader loading color="#e98580" />
+          )}
         </div>
 
         <div className="loading">

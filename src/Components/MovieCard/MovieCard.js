@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { BeatLoader } from "react-spinners";
 import "./MovieCard.css";
 
 // Import Swiper styles
@@ -86,6 +87,9 @@ function MovieCard({ data }) {
         }}
         src={moviePoster + poster_path}
         alt={title}
+        onError={(e) =>
+          (e.target.src = "https://cinemaone.net/images/movie_placeholder.png")
+        }
       />
 
       <div className="movie-info">
@@ -96,7 +100,9 @@ function MovieCard({ data }) {
       {Object.keys(movieDetails).length > 0 ? (
         <div className={click ? "modal active" : "modal"}>
           {isloading ? (
-            <div className="loading">Loading...</div>
+            <div className="loading">
+              <BeatLoader loading color="#e98580" />
+            </div>
           ) : (
             <div className="modal-content">
               <span className="close" onClick={hideModal}>
@@ -164,42 +170,46 @@ function MovieCard({ data }) {
                 className="mySwiper"
               >
                 <div className="modal-movie-recommend">
-                  {recommend.map((recommend) => (
-                    <SwiperSlide>
-                      <div className="modal-recommend">
-                        <img
-                          onClick={() => {
-                            reloadModal();
-                            getMovieTrailer(recommend.id);
-                            getMovieCast(recommend.id);
-                            getMovieRecommendation(recommend.id);
-                            setMovieDetails({
-                              id: recommend.id,
-                              title: recommend.title,
-                              poster_path: recommend.poster_path,
-                              vote_average: recommend.vote_average,
-                              overview: recommend.overview,
-                              backdrop_path: recommend.backdrop_path,
-                            });
-                            setImageSource(recommend.backdrop_path);
-                            setLoading(true);
-                          }}
-                          src={moviePoster + recommend.poster_path}
-                          alt={recommend.original_name}
-                          onError={(e) =>
-                            (e.target.src =
-                              "https://cinemaone.net/images/movie_placeholder.png")
-                          }
-                        />
+                  {recommend.length > 0 ? (
+                    recommend.map((recommend) => (
+                      <SwiperSlide>
+                        <div className="modal-recommend">
+                          <img
+                            onClick={() => {
+                              reloadModal();
+                              getMovieTrailer(recommend.id);
+                              getMovieCast(recommend.id);
+                              getMovieRecommendation(recommend.id);
+                              setMovieDetails({
+                                id: recommend.id,
+                                title: recommend.title,
+                                poster_path: recommend.poster_path,
+                                vote_average: recommend.vote_average,
+                                overview: recommend.overview,
+                                backdrop_path: recommend.backdrop_path,
+                              });
+                              setImageSource(recommend.backdrop_path);
+                              setLoading(true);
+                            }}
+                            src={moviePoster + recommend.poster_path}
+                            alt={recommend.original_name}
+                            onError={(e) =>
+                              (e.target.src =
+                                "https://cinemaone.net/images/movie_placeholder.png")
+                            }
+                          />
 
-                        <div className="modal-cast-name">
-                          <strong>
-                            {recommend.original_title.substring(0, 25)}
-                          </strong>
+                          <div className="modal-cast-name">
+                            <strong>
+                              {recommend.original_title.substring(0, 20)}
+                            </strong>
+                          </div>
                         </div>
-                      </div>
-                    </SwiperSlide>
-                  ))}
+                      </SwiperSlide>
+                    ))
+                  ) : (
+                    <div className="no-data">No Recommendation Found</div>
+                  )}
                 </div>
               </Swiper>
               {/* <a href={`https://www.youtube.com/embed/` + trailer}>
