@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { BeatLoader } from "react-spinners";
-import MovieCard from "../MovieCard/MovieCard";
+import TvCards from "../TvCards/TvCards";
 import Swal from "sweetalert2";
-import "./Home.css";
+import "./PopularShows.css";
 
-function Home() {
+function PopularShows() {
   let PAGE_NUMBER = 1;
   let [page, setPage] = useState(PAGE_NUMBER);
   const [maxPage, setMaxPage] = useState("");
-  const [movies, setMovie] = useState([]);
+  const [tvShows, setTvSHows] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-
-  const onSubmit = (e) => {
-    setMovie("");
-    e.preventDefault();
-    searchMovies();
-  };
 
   const errorMessage = () => {
     Swal.fire({
@@ -35,39 +29,49 @@ function Home() {
     });
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    searchMovies();
+    setTvSHows("");
+  };
+
+  const loadPopular = async () => {
+    const tvShows = await Axios.get(
+      `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
+    );
+
+    setTvSHows((prev) => [...prev, ...tvShows.data.results]);
+    setMaxPage(tvShows.data.total_pages);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  };
+
   const searchMovies = async () => {
     if (!search.trim()) {
       errorEmptyMessage();
       setSearch("");
-      return loadMovies();
+      return loadPopular();
     }
     const query = await Axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${search}&page=${page}&include_adult=false`
+      `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}&query=${search}&include_adult=false`
     );
     // setMovie((prev) => [...prev, ...searchMovie.data.results]);
 
-    setMovie((prev) => [...prev, ...query.data.results]);
+    setTvSHows((prev) => [...prev, ...query.data.results]);
     setMaxPage(query.data.total_pages);
     if (query.data.total_results === 0) {
       setSearch("");
       errorMessage();
-      return loadMovies();
+      return loadPopular();
     }
     setLoading(false);
-  };
-
-  const loadMovies = async () => {
-    const movies = await Axios.get(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
-    );
-    setMovie((prev) => [...prev, ...movies.data.results]);
-    setMaxPage(movies.data.total_pages);
   };
 
   useEffect(() => {
     window.onscroll = infiniteScroll;
     if (!search.trim()) {
-      loadMovies();
+      loadPopular();
       setLoading(false);
     } else {
       searchMovies();
@@ -99,8 +103,8 @@ function Home() {
   }, [page]);
 
   return (
-    <div className="home-container">
-      <div className="home-content bd-container">
+    <div className="popular-container">
+      <div className="popular-content bd-container">
         <div className="search">
           <form onSubmit={onSubmit}>
             <input
@@ -109,21 +113,21 @@ function Home() {
               onChange={(e) => {
                 setSearch(e.target.value);
               }}
-              placeholder="Enter Movie Title"
+              placeholder="Enter Movie, Tv Show or People"
             />
             <input type="submit" value="Search" />
           </form>
         </div>
+
         <div className="movie-card-list">
-          {movies.length > 0 ? (
-            movies.map((movie) => <MovieCard key={movie.id} data={movie} />)
+          {tvShows.length > 0 ? (
+            tvShows.map((tv) => <TvCards key={tv.id} data={tv} />)
           ) : (
             <div className="loading-animation">
               <BeatLoader loading color="#e98580" />
             </div>
           )}
         </div>
-
         <div className="loading">
           {isLoading && <BeatLoader loading color="#e98580" />}
         </div>
@@ -132,4 +136,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default PopularShows;

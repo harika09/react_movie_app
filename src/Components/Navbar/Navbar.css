@@ -30,4 +30,5 @@ a {
 
 .nav-menu li {
   margin-right: 30px;
+  cursor: pointer;
 }

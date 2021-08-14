@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { BeatLoader } from "react-spinners";
-import MovieCard from "../MovieCard/MovieCard";
 import Swal from "sweetalert2";
-import "./Home.css";
+import PeopleCard from "../PeopleCard/PeopleCard";
+import "./People.css";
 
-function Home() {
+function People() {
   let PAGE_NUMBER = 1;
   let [page, setPage] = useState(PAGE_NUMBER);
   const [maxPage, setMaxPage] = useState("");
-  const [movies, setMovie] = useState([]);
+  const [people, setPeople] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
   const onSubmit = (e) => {
-    setMovie("");
+    setPeople("");
     e.preventDefault();
-    searchMovies();
+    searchPeople();
   };
 
   const errorMessage = () => {
@@ -35,42 +35,43 @@ function Home() {
     });
   };
 
-  const searchMovies = async () => {
+  const searchPeople = async () => {
     if (!search.trim()) {
       errorEmptyMessage();
       setSearch("");
-      return loadMovies();
+      return loadPeople();
     }
     const query = await Axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${search}&page=${page}&include_adult=false`
+      `https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${search}&page=${page}&include_adult=false`
     );
     // setMovie((prev) => [...prev, ...searchMovie.data.results]);
-
-    setMovie((prev) => [...prev, ...query.data.results]);
+    console.log(query);
+    setPeople((prev) => [...prev, ...query.data.results]);
     setMaxPage(query.data.total_pages);
     if (query.data.total_results === 0) {
       setSearch("");
       errorMessage();
-      return loadMovies();
+      return loadPeople;
     }
     setLoading(false);
   };
 
-  const loadMovies = async () => {
-    const movies = await Axios.get(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
+  const loadPeople = async () => {
+    const people = await Axios.get(
+      `https://api.themoviedb.org/3/person/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
     );
-    setMovie((prev) => [...prev, ...movies.data.results]);
-    setMaxPage(movies.data.total_pages);
+
+    setPeople((prev) => [...prev, ...people.data.results]);
+    setMaxPage(people.data.total_pages);
   };
 
   useEffect(() => {
     window.onscroll = infiniteScroll;
     if (!search.trim()) {
-      loadMovies();
+      loadPeople();
       setLoading(false);
     } else {
-      searchMovies();
+      searchPeople();
     }
     // This variable is used to remember if the function was executed.
     let isExecuted = false;
@@ -99,8 +100,8 @@ function Home() {
   }, [page]);
 
   return (
-    <div className="home-container">
-      <div className="home-content bd-container">
+    <div className="people-container">
+      <div className="people-content bd-container">
         <div className="search">
           <form onSubmit={onSubmit}>
             <input
@@ -109,14 +110,14 @@ function Home() {
               onChange={(e) => {
                 setSearch(e.target.value);
               }}
-              placeholder="Enter Movie Title"
+              placeholder="Enter Tv Show"
             />
             <input type="submit" value="Search" />
           </form>
         </div>
         <div className="movie-card-list">
-          {movies.length > 0 ? (
-            movies.map((movie) => <MovieCard key={movie.id} data={movie} />)
+          {people.length > 0 ? (
+            people.map((people) => <PeopleCard key={people.id} data={people} />)
           ) : (
             <div className="loading-animation">
               <BeatLoader loading color="#e98580" />
@@ -132,4 +133,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default People;

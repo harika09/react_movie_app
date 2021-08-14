@@ -1,0 +1,8 @@
+.popular-container {
+  padding-top: 80px;
+}
+
+.tv-shows-backdrop {
+  z-index: -1;
+  mask-image: linear-gradient(to top, transparent 0, black 55%);
+}
