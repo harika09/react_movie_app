@@ -2,8 +2,6 @@ import React, { useState, useRef } from "react";
 import Axios from "axios";
 import SwiperCore, { Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import ReactPlayer from "react-player";
-import Iframe from "react-iframe";
 import { BeatLoader } from "react-spinners";
 import "./MovieCard.css";
 
@@ -174,25 +172,41 @@ function MovieCard({ data }) {
               <div className="social-media-accounts">
                 <ul className="links">
                   <li>
-                    <a href={`https://www.imdb.com/title/${imdb}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://www.imdb.com/title/${imdb}`}
+                    >
                       <i className="fab fa-imdb"></i>
                     </a>
                   </li>
 
                   <li>
-                    <a href={`https://www.facebook.com/${facebook}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://www.facebook.com/${facebook}`}
+                    >
                       <i className="fab fa-facebook"></i>
                     </a>
                   </li>
 
                   <li>
-                    <a href={`https://www.instagram.com/${instagram}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://www.instagram.com/${instagram}`}
+                    >
                       <i className="fab fa-instagram"></i>
                     </a>
                   </li>
 
                   <li>
-                    <a href={`https://twitter.com/${twitter}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://twitter.com/${twitter}`}
+                    >
                       <i className="fab fa-twitter"></i>
                     </a>
                   </li>
@@ -218,101 +232,105 @@ function MovieCard({ data }) {
               </div>
 
               <div className="modal-movie-overview">
-                <strong>Overview:</strong>
+                <strong>Overview</strong>
                 <p>{movieDetails.overview}</p>
               </div>
 
-              <strong className="title">Cast:</strong>
-              <Swiper
-                slidesPerView={"auto"}
-                spaceBetween={0}
-                freeMode={true}
-                loop={false}
-                showsPagination={false}
-                className="mySwiper"
-              >
-                <div className="modal-movie-cast">
-                  {casts.length > 0 ? (
-                    casts.map((cast) => (
-                      <SwiperSlide>
-                        <div className="modal-cast">
-                          <img
-                            loading="lazy"
-                            src={moviePoster + cast.profile_path}
-                            alt={cast.original_name}
-                            onError={(e) =>
-                              (e.target.src =
-                                "https://cinemaone.net/images/movie_placeholder.png")
-                            }
-                          />
+              <div className="movie-cast-list">
+                <strong className="title">Cast</strong>
+                <Swiper
+                  slidesPerView={"auto"}
+                  spaceBetween={0}
+                  freeMode={true}
+                  loop={false}
+                  showsPagination={false}
+                  className="mySwiper"
+                >
+                  <div className="modal-movie-cast">
+                    {casts.length > 0 ? (
+                      casts.map((cast) => (
+                        <SwiperSlide>
+                          <div className="modal-cast">
+                            <img
+                              loading="lazy"
+                              src={moviePoster + cast.profile_path}
+                              alt={cast.original_name}
+                              onError={(e) =>
+                                (e.target.src =
+                                  "https://cinemaone.net/images/movie_placeholder.png")
+                              }
+                            />
 
-                          <div className="modal-cast-name">
-                            <strong>
-                              {cast.original_name.substring(0, 25)}...
-                            </strong>
+                            <div className="modal-cast-name">
+                              <strong>
+                                {cast.original_name.substring(0, 25)}...
+                              </strong>
+                            </div>
                           </div>
-                        </div>
-                      </SwiperSlide>
-                    ))
-                  ) : (
-                    <div className="no-data">No Cast Found</div>
-                  )}
-                </div>
-              </Swiper>
+                        </SwiperSlide>
+                      ))
+                    ) : (
+                      <div className="no-data">No Cast Found</div>
+                    )}
+                  </div>
+                </Swiper>
+              </div>
 
-              <strong className="title">Recommend:</strong>
-              <Swiper
-                slidesPerView={"auto"}
-                spaceBetween={0}
-                freeMode={true}
-                loop={false}
-                showsPagination={false}
-                className="mySwiper"
-              >
-                <div className="modal-movie-recommend">
-                  {recommend.length > 0 ? (
-                    recommend.map((recommend) => (
-                      <SwiperSlide>
-                        <div className="modal-recommend">
-                          <img
-                            loading="lazy"
-                            onClick={() => {
-                              reloadModal();
-                              getMovieTrailer(recommend.id);
-                              getMovieCast(recommend.id);
-                              getMovieRecommendation(recommend.id);
-                              setMovieDetails({
-                                id: recommend.id,
-                                title: recommend.title,
-                                poster_path: recommend.poster_path,
-                                vote_average: recommend.vote_average,
-                                overview: recommend.overview,
-                                backdrop_path: recommend.backdrop_path,
-                              });
-                              setImageSource(recommend.backdrop_path);
-                              setLoading(true);
-                            }}
-                            src={moviePoster + recommend.poster_path}
-                            alt={recommend.original_name}
-                            onError={(e) =>
-                              (e.target.src =
-                                "https://cinemaone.net/images/movie_placeholder.png")
-                            }
-                          />
+              <div className="movie-recommend-list">
+                <strong className="title">Recommendations</strong>
+                <Swiper
+                  slidesPerView={"auto"}
+                  spaceBetween={0}
+                  freeMode={true}
+                  loop={false}
+                  showsPagination={false}
+                  className="mySwiper"
+                >
+                  <div className="modal-movie-recommend">
+                    {recommend.length > 0 ? (
+                      recommend.map((recommend) => (
+                        <SwiperSlide>
+                          <div className="modal-recommend">
+                            <img
+                              loading="lazy"
+                              onClick={() => {
+                                reloadModal();
+                                getMovieTrailer(recommend.id);
+                                getMovieCast(recommend.id);
+                                getMovieRecommendation(recommend.id);
+                                setMovieDetails({
+                                  id: recommend.id,
+                                  title: recommend.title,
+                                  poster_path: recommend.poster_path,
+                                  vote_average: recommend.vote_average,
+                                  overview: recommend.overview,
+                                  backdrop_path: recommend.backdrop_path,
+                                });
+                                setImageSource(recommend.backdrop_path);
+                                setLoading(true);
+                              }}
+                              src={moviePoster + recommend.poster_path}
+                              alt={recommend.original_name}
+                              onError={(e) =>
+                                (e.target.src =
+                                  "https://cinemaone.net/images/movie_placeholder.png")
+                              }
+                            />
 
-                          <div className="modal-cast-name">
-                            <strong>
-                              {recommend.original_title.substring(0, 20)}
-                            </strong>
+                            <div className="modal-cast-name">
+                              <strong>
+                                {recommend.original_title.substring(0, 20)}
+                              </strong>
+                            </div>
                           </div>
-                        </div>
-                      </SwiperSlide>
-                    ))
-                  ) : (
-                    <div className="no-data">No Recommendation Found</div>
-                  )}
-                </div>
-              </Swiper>
+                        </SwiperSlide>
+                      ))
+                    ) : (
+                      <div className="no-data">No Recommendation Found</div>
+                    )}
+                  </div>
+                </Swiper>
+              </div>
             </div>
           )}
         </div>

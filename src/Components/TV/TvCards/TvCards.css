@@ -58,7 +58,11 @@
   padding: 10px;
 }
 
-@media screen and (max-width: 600px) {
+.modal-season-list {
+  margin: 15px 0;
+}
+
+@media screen and (max-width: 691px) {
   .tv-shows-list {
     max-width: 45%;
     margin: 0.8rem auto;
@@ -76,6 +80,29 @@
   .close {
     left: 88%;
     top: 2%;
+  }
+
+  .modal-movie-info h4,
+  .modal-movie-info span {
+    font-size: 0.9rem;
+  }
+
+  .movie-genres li {
+    font-size: 1rem;
+  }
+
+  .social-media-accounts .links li a i,
+  .modal-trailer a,
+  .modal-trailer .fa-play {
+    font-size: 1rem;
+  }
+
+  .modal-tv-shows-overview strong {
+    font-size: 0.9rem;
+  }
+
+  .modal-tv-shows-overview p {
+    font-size: 0.8rem;
   }
 }
 

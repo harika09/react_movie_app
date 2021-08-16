@@ -6,6 +6,17 @@
   font-family: "Prompt", sans-serif;
 }
 
+button,
+a,
+img {
+  -webkit-tap-highlight-color: rgba(
+    0,
+    0,
+    0,
+    0
+  ); /* remove  blue background when button clicked */
+}
+
 .bd-container {
   max-width: 1240px;
   margin: 0 1rem;

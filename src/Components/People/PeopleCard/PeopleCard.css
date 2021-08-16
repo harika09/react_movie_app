@@ -51,7 +51,7 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 691px) {
   .people-list-info {
     max-width: 45%;
     margin: 0.8rem auto;
@@ -64,6 +64,10 @@
 
   .modal-content {
     max-width: 450px;
+  }
+
+  .people-biography {
+    font-size: 0.9rem;
   }
 }
 

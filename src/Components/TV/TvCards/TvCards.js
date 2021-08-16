@@ -164,25 +164,41 @@ function TvCards({ data }) {
               <div className="social-media-accounts">
                 <ul className="links">
                   <li>
-                    <a href={`https://www.imdb.com/title/${imdb}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://www.imdb.com/title/${imdb}`}
+                    >
                       <i className="fab fa-imdb"></i>
                     </a>
                   </li>
 
                   <li>
-                    <a href={`https://www.facebook.com/${facebook}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://www.facebook.com/${facebook}`}
+                    >
                       <i className="fab fa-facebook"></i>
                     </a>
                   </li>
 
                   <li>
-                    <a href={`https://www.instagram.com/${instagram}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://www.instagram.com/${instagram}`}
+                    >
                       <i className="fab fa-instagram"></i>
                     </a>
                   </li>
 
                   <li>
-                    <a href={`https://twitter.com/${twitter}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://twitter.com/${twitter}`}
+                    >
                       <i className="fab fa-twitter"></i>
                     </a>
                   </li>
@@ -208,7 +224,7 @@ function TvCards({ data }) {
               </div>
 
               <div className="modal-tv-shows-overview">
-                <strong>Overview:</strong>
+                <strong>Overview</strong>
                 <p>{showDetails.overview}</p>
               </div>
 
@@ -249,42 +265,44 @@ function TvCards({ data }) {
                 </div>
               </Swiper>
 
-              <strong className="title">Seasons</strong>
-              <Swiper
-                slidesPerView={"auto"}
-                spaceBetween={0}
-                freeMode={true}
-                loop={false}
-                showsPagination={false}
-                className="mySwiper"
-              >
-                <div className="modal-tv-show-season">
-                  {seasons.length > 0 ? (
-                    seasons.map((season) => (
-                      <SwiperSlide>
-                        <div key={season.id} className="modal-season">
-                          <img
-                            src={TvPoster + season.poster_path}
-                            alt={season.name}
-                            onError={(e) =>
-                              (e.target.src =
-                                "https://cinemaone.net/images/movie_placeholder.png")
-                            }
-                          />
+              <div className="modal-season-list">
+                <strong className="title">Seasons</strong>
+                <Swiper
+                  slidesPerView={"auto"}
+                  spaceBetween={0}
+                  freeMode={true}
+                  loop={false}
+                  showsPagination={false}
+                  className="mySwiper"
+                >
+                  <div className="modal-tv-show-season">
+                    {seasons.length > 0 ? (
+                      seasons.map((season) => (
+                        <SwiperSlide>
+                          <div key={season.id} className="modal-season">
+                            <img
+                              src={TvPoster + season.poster_path}
+                              alt={season.name}
+                              onError={(e) =>
+                                (e.target.src =
+                                  "https://cinemaone.net/images/movie_placeholder.png")
+                              }
+                            />
 
-                          <div className="modal-cast-name">
-                            <strong>{season.name.substring(0, 20)}</strong>
+                            <div className="modal-cast-name">
+                              <strong>{season.name.substring(0, 20)}</strong>
+                            </div>
                           </div>
-                        </div>
-                      </SwiperSlide>
-                    ))
-                  ) : (
-                    <div className="no-data">No Data Found</div>
-                  )}
-                </div>
-              </Swiper>
+                        </SwiperSlide>
+                      ))
+                    ) : (
+                      <div className="no-data">No Data Found</div>
+                    )}
+                  </div>
+                </Swiper>
+              </div>
 
-              <strong className="title">Recommend</strong>
+              <strong className="title">Recommendations</strong>
               <Swiper
                 slidesPerView={"auto"}
                 spaceBetween={0}

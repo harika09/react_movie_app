@@ -118,19 +118,31 @@ function PeopleCard({ data }) {
               <div className="social-media-accounts">
                 <ul className="links">
                   <li>
-                    <a href={`https://www.facebook.com/${facebook}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://www.facebook.com/${facebook}`}
+                    >
                       <i className="fab fa-facebook"></i>
                     </a>
                   </li>
 
                   <li>
-                    <a href={`https://www.instagram.com/${instagram}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://www.instagram.com/${instagram}`}
+                    >
                       <i className="fab fa-instagram"></i>
                     </a>
                   </li>
 
                   <li>
-                    <a href={`https://twitter.com/${twitter}`}>
+                    <a
+                      target={"_blank"}
+                      rel="noreferrer"
+                      href={`https://twitter.com/${twitter}`}
+                    >
                       <i className="fab fa-twitter"></i>
                     </a>
                   </li>
@@ -138,15 +150,18 @@ function PeopleCard({ data }) {
               </div>
 
               <strong className="title">Biography</strong>
-              <div className="overview">
-                {Object.keys(peopleInfo).length > 0 ? (
-                  <div className="people-overview">
-                    <p>{peopleInfo.biography}</p>
-                  </div>
-                ) : (
-                  "No Data Found"
-                )}
+              <div className="people-biography">
+                <div className="overview">
+                  {Object.keys(peopleInfo).length > 0 ? (
+                    <div className="people-overview">
+                      <p>{peopleInfo.biography}</p>
+                    </div>
+                  ) : (
+                    "No Data Found"
+                  )}
+                </div>
               </div>
+
               <strong className="title">Known For</strong>
               <Swiper
                 slidesPerView={"auto"}
@@ -172,22 +187,8 @@ function PeopleCard({ data }) {
                       </div>
                     </SwiperSlide>
                   ))}
-
-                  {/* {peopeInfomation.known_for.map((people) => (
-                  <div className="movies">
-                    <img
-                      src={people_profile + people.poster_path}
-                      alt={people.original_title}
-                    />
-                  </div>
-                ))} */}
                 </div>
               </Swiper>
-
-              {/* <div className="modal-movie-overview">
-                <strong>Overview:</strong>
-                <p>{movieDetails.overview}</p>
-              </div> */}
             </div>
           )}
         </div>
