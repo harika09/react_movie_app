@@ -38,8 +38,13 @@
   margin-bottom: 10px;
 }
 
+.trailer li a {
+  color: #000;
+}
+
 .links li i {
   font-size: 1.3rem;
+  color: #11052c;
 }
 
 .links li i:hover {

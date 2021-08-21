@@ -108,8 +108,13 @@ span {
   padding: 10px;
 }
 
+.trailer li a {
+  color: #000;
+}
+
 .trailer li a i {
   font-size: 1.2rem;
+  color: #012443;
 }
 
 .trailer li a i:hover,
