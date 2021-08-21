@@ -26,10 +26,14 @@ input[type="text"] {
   width: 88%;
 }
 
+input[type="text"]:focus {
+  outline: none;
+}
+
 input[type="submit"] {
   border: none;
   outline: none;
-  background: #261c2c;
+  background: #012443;
   padding: 10px;
   cursor: pointer;
   color: #fff;

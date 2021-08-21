@@ -4,7 +4,6 @@ li {
 
 a {
   text-decoration: none;
-  color: #000;
 }
 
 .navbar-container {
@@ -15,7 +14,8 @@ a {
   left: 0;
   z-index: 100;
   transition: 0.5s;
-  background-color: #fff;
+  background-color: #11324d;
+  color: #fff;
 }
 
 .navbar-container.active {
@@ -77,7 +77,6 @@ a {
   font-size: 16px;
   border: none;
   outline: none;
-  color: white;
   padding: 14px 16px;
   background-color: inherit;
   font-family: inherit;
@@ -110,6 +109,7 @@ a {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
 @media screen and (max-width: 600px) {
   .dropdown .dropdown-content {
     position: relative;
